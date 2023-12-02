@@ -1,5 +1,6 @@
-// utilities.js
-function openTab(tabName, tabContentSelector, tabLinkSelector) {
+const HeygenHome = {};
+
+HeygenHome.openTab = function (tabName, tabContentSelector, tabLinkSelector) {
   const tabcontent = document.querySelectorAll(tabContentSelector);
   const tablinks = document.querySelectorAll(tabLinkSelector);
 
@@ -10,9 +11,9 @@ function openTab(tabName, tabContentSelector, tabLinkSelector) {
   document
     .getElementById(`script_tab${tabName.split('-').pop()}`)
     .classList.add('is-active');
-}
+};
 
-function setupVideoPlayback(
+HeygenHome.setupVideoPlayback = function (
   selector,
   videoClass,
   fullscreenVideoId,
@@ -24,9 +25,13 @@ function setupVideoPlayback(
       playFullscreenVideo(video, fullscreenVideoId, fullscreenContainerId);
     });
   });
-}
+};
 
-function playFullscreenVideo(video, fullscreenVideoId, fullscreenContainerId) {
+HeygenHome.playFullscreenVideo = function (
+  video,
+  fullscreenVideoId,
+  fullscreenContainerId
+) {
   const fullscreenVideo = document.getElementById(fullscreenVideoId);
   const fullscreenContainer = document.getElementById(fullscreenContainerId);
 
@@ -34,9 +39,13 @@ function playFullscreenVideo(video, fullscreenVideoId, fullscreenContainerId) {
   fullscreenVideo.currentTime = 0;
   fullscreenVideo.play();
   fullscreenContainer.style.display = 'flex';
-}
+};
 
-function setupAudioPlayback(buttonSelector, playIconClass, pauseIconClass) {
+HeygenHome.setupAudioPlayback = function (
+  buttonSelector,
+  playIconClass,
+  pauseIconClass
+) {
   document.querySelectorAll(buttonSelector).forEach((button) => {
     const audio = button.querySelector('audio');
     if (!audio) return;
@@ -48,9 +57,14 @@ function setupAudioPlayback(buttonSelector, playIconClass, pauseIconClass) {
       toggleAudio(audio, button, playIconClass, pauseIconClass)
     );
   });
-}
+};
 
-function toggleAudio(audio, button, playIconClass, pauseIconClass) {
+HeygenHome.toggleAudio = function (
+  audio,
+  button,
+  playIconClass,
+  pauseIconClass
+) {
   const isPlaying = !audio.paused;
   resetAllAudio(buttonSelector, playIconClass, pauseIconClass);
   if (isPlaying) {
@@ -59,39 +73,39 @@ function toggleAudio(audio, button, playIconClass, pauseIconClass) {
     audio.play();
     updateButtonState(button, true, playIconClass, pauseIconClass);
   }
-}
+};
 
-function resetAllAudio(buttonSelector, playIconClass, pauseIconClass) {
+HeygenHome.resetAllAudio = function (
+  buttonSelector,
+  playIconClass,
+  pauseIconClass
+) {
   document.querySelectorAll(buttonSelector).forEach((button) => {
     const audio = button.querySelector('audio');
     if (audio) audio.pause();
     updateButtonState(button, false, playIconClass, pauseIconClass);
   });
-}
+};
 
-function updateButtonState(button, isPlaying, playIconClass, pauseIconClass) {
+HeygenHome.updateButtonState = function (
+  button,
+  isPlaying,
+  playIconClass,
+  pauseIconClass
+) {
   const playIcon = button.querySelector(playIconClass);
   const pauseIcon = button.querySelector(pauseIconClass);
 
   playIcon.classList.toggle('is-hidden', isPlaying);
   pauseIcon.classList.toggle('is-hidden', !isPlaying);
   button.classList.toggle('is-selected', isPlaying);
-}
+};
 
-function resetAudioButton(button, playIconClass, pauseIconClass) {
+HeygenHome.resetAudioButton = function (button, playIconClass, pauseIconClass) {
   updateButtonState(button, false, playIconClass, pauseIconClass);
-}
+};
 
-window.openTab = openTab;
-window.setupVideoPlayback = setupVideoPlayback;
-window.playFullscreenVideo = playFullscreenVideo;
-window.setupAudioPlayback = setupAudioPlayback;
-window.toggleAudio = toggleAudio;
-window.resetAllAudio = resetAllAudio;
-window.updateButtonState = updateButtonState;
-window.resetAudioButton = resetAudioButton;
-
-function setupVideoAutoplay(videoSelector) {
+HeygenHome.setupVideoAutoplay = function (videoSelector) {
   const observerCallback = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -106,9 +120,9 @@ function setupVideoAutoplay(videoSelector) {
   document.querySelectorAll(videoSelector).forEach((video) => {
     observer.observe(video);
   });
-}
+};
 
-function setupSlider(sliderId, prevBtnId, nextBtnId) {
+HeygenHome.setupSlider = function (sliderId, prevBtnId, nextBtnId) {
   const slider = new Splide(sliderId, {
     perMove: 1,
     focus: 0,
@@ -142,7 +156,6 @@ function setupSlider(sliderId, prevBtnId, nextBtnId) {
 
   updateButtons();
   slider.on('moved', updateButtons);
-}
+};
 
-window.setupVideoAutoplay = setupVideoAutoplay;
-window.setupSlider = setupSlider;
+window.HeygenHome = HeygenHome;
